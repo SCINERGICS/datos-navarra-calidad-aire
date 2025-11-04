@@ -14,20 +14,42 @@
     body, html { width: 100%; height: 100%; background-color: #f7f7f7; color: #333; }
 
     header {
-      position: relative; height: 40vh;
-      background: url("pamplona.jpg") no-repeat center center;
-      background-size: cover;
-      display: flex; align-items: center; justify-content: center;
-      color: #fff; text-align: center;
-    }
-    header::after { content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.45); }
-    header h1 { position: relative; font-size: 2.8rem; z-index: 2; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); max-width: 90%; }
+    position: relative;
+    height: 45vh; /* antes 40vh → un poco más alto */
+    background: url("C:/nivelrios/pamplona.jpg") no-repeat center center;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    text-align: center;
+  }
 
-    .logo {
-      position: absolute; top: 20px; left: 30px; height: 70px; z-index: 3;
-      transition: transform 0.3s ease;
-    }
-    .logo:hover { transform: scale(1.05); }
+  header::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.45);
+  }
+
+  header h1 {
+    position: relative;
+    font-size: 2.8rem;
+    z-index: 2;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+    max-width: 90%;
+    margin-top: 40px; /* 🔹 añadido para bajar el título */
+  }
+
+  .logo {
+    position: absolute;
+    top: 20px;
+    left: 30px;
+    height: 70px;
+    z-index: 3;
+    transition: transform 0.3s ease;
+  }
+  .logo:hover { transform: scale(1.05); }
 
     .content { max-width: 950px; margin: 50px auto; padding: 0 20px; text-align: justify; line-height: 1.7; font-size: 1.05rem; }
     .content p { margin-bottom: 25px; }
@@ -182,4 +204,5 @@
 
 </body>
 </html>
+
 
