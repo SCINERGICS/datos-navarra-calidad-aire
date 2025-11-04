@@ -11,12 +11,25 @@
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    body, html { width: 100%; height: 100%; background-color: #f7f7f7; color: #333; }
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
 
-    header {
+  html, body {
+    width: 100%;
+    height: 100%;
+    background-color: #f7f7f7;
+    color: #333;
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  header {
     position: relative;
-    height: 45vh; /* antes 40vh → un poco más alto */
+    height: clamp(35vh, 45vh, 50vh);
     background: url("pamplona.jpg") no-repeat center center;
     background-size: cover;
     display: flex;
@@ -29,98 +42,173 @@
   header::after {
     content: "";
     position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
+    inset: 0;
     background: rgba(0, 0, 0, 0.45);
   }
 
   header h1 {
     position: relative;
-    font-size: 2.8rem;
+    font-size: clamp(1.6rem, 4vw, 2.8rem);
     z-index: 2;
     text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
     max-width: 90%;
-    margin-top: 40px; /* 🔹 añadido para bajar el título */
+    margin-top: 40px;
+    line-height: 1.2;
   }
 
   .logo {
     position: absolute;
     top: 20px;
     left: 30px;
-    height: 70px;
+    max-height: 70px;
+    width: auto;
     z-index: 3;
     transition: transform 0.3s ease;
   }
-  .logo:hover { transform: scale(1.05); }
 
-    .content { max-width: 950px; margin: 50px auto; padding: 0 20px; text-align: justify; line-height: 1.7; font-size: 1.05rem; }
-    .content p { margin-bottom: 25px; }
+  .logo:hover {
+    transform: scale(1.05);
+  }
 
-    #map { width: 100%; height: 50vh; margin-top: 40px; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+  .content {
+    max-width: min(90%, 950px);
+    margin: clamp(30px, 5vh, 50px) auto;
+    padding: 0 20px;
+    text-align: justify;
+    line-height: 1.7;
+    font-size: clamp(0.95rem, 2vw, 1.05rem);
+  }
 
-    /* ===== Tabla ===== */
+  .content p {
+    margin-bottom: 25px;
+  }
+
+  #map {
+    width: 100%;
+    height: 50vh;
+    margin-top: 40px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  }
+
+  /* ===== Tabla ===== */
+  table {
+    width: 90%;
+    max-width: 950px;
+    margin: 50px auto;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    font-size: clamp(0.85rem, 1.8vw, 1rem);
+    table-layout: fixed;
+  }
+
+  th, td {
+    padding: clamp(8px, 1.5vw, 15px);
+    text-align: center;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    word-wrap: break-word;
+  }
+
+  th {
+    background: #0072b8;
+    color: #fff;
+  }
+
+  tr:hover {
+    background-color: rgba(0,114,184,0.1);
+  }
+
+  button {
+    display: block;
+    width: fit-content;
+    margin: 40px auto 60px auto;
+    padding: clamp(10px, 2vw, 15px) clamp(20px, 4vw, 30px);
+    font-size: clamp(0.9rem, 2vw, 1rem);
+    border: none;
+    border-radius: 50px;
+    background: rgba(0,114,184,0.9);
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  }
+
+  button:hover {
+    background: rgba(0,114,184,0.75);
+    transform: translateY(-3px);
+  }
+
+  footer {
+    width: 100%;
+    background: rgba(0,0,0,0.8);
+    color: #fff;
+    font-size: clamp(0.8rem, 1.8vw, 0.9rem);
+    text-align: center;
+    padding: 15px 10px;
+    margin-top: 20px;
+  }
+
+  /* ===========================
+     🔹 Mejoras Responsive
+  =========================== */
+  @media (max-width: 768px) {
+    header h1 {
+      margin-top: 60px;
+    }
+    .logo {
+      max-height: 55px;
+      left: 20px;
+      top: 15px;
+    }
+    #map {
+      height: 45vh;
+    }
+  }
+
+  @media (max-width: 550px) {
+    header {
+      height: 35vh;
+    }
+    header h1 {
+      font-size: 1.6rem;
+      margin-top: 70px;
+    }
+    .logo {
+      max-height: 45px;
+      left: 15px;
+      top: 10px;
+    }
+    .content {
+      padding: 0 10px;
+    }
     table {
-      width: 90%;
-      max-width: 950px;
-      margin: 50px auto;
-      border-collapse: collapse;
-      background: #fff;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    }
-
-    th, td {
-      padding: 12px 15px;
-      text-align: center;
-      border-bottom: 1px solid rgba(0,0,0,0.1);
-    }
-
-    th {
-      background: #0072b8;
-      color: #fff;
-    }
-
-    tr:hover {
-      background-color: rgba(0,114,184,0.1);
-    }
-
-    button {
+      width: 100%;
       display: block;
-      width: fit-content;
-      margin: 40px auto 60px auto;
-      padding: 15px 30px;
-      font-size: 1rem;
-      border: none;
-      border-radius: 50px;
-      background: rgba(0,114,184,0.9);
-      color: #fff;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      overflow-x: auto;
+      white-space: nowrap;
     }
-
-    button:hover {
-      background: rgba(0,114,184,0.75);
-      transform: translateY(-3px);
+    th, td {
+      min-width: 120px;
     }
+  }
 
-    footer { width: 100%; background: rgba(0,0,0,0.8); color: #fff; font-size: 0.9rem; text-align: center; padding: 15px 0; margin-top: 20px; }
-
-    @media (max-width: 768px) {
-      header h1 { font-size: 2.1rem; }
-      .logo { height: 55px; left: 20px; top: 15px; }
-      .content { font-size: 1rem; }
-      table { font-size: 0.95rem; }
-      button { font-size: 0.95rem; padding: 12px 25px; }
+  @media (min-width: 1600px) {
+    .logo {
+      max-height: 80px;
     }
-
-    @media (max-width: 480px) {
-      header { height: 35vh; }
-      header h1 { font-size: 1.6rem; }
-      .logo { height: 45px; left: 15px; top: 10px; }
-      button { font-size: 0.9rem; padding: 10px 20px; }
+    header {
+      height: 50vh;
     }
-  </style>
+    .content {
+      max-width: 1100px;
+    }
+  }
+</style>
+
 </head>
 <body>
 
@@ -217,6 +305,7 @@
 
 </body>
 </html>
+
 
 
 
